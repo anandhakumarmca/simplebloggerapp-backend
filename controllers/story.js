@@ -3,14 +3,7 @@ import { Story } from "../models/story.js";
 export const addStory = async (req, res) => {
   const { title, content, image } = req.body;
 
-  // Calculate word count
-  const wordCount =
-    content && typeof content === "string"
-      ? content.trim().split(/\s+/).length
-      : 0;
-
-  // Calculate read time
-  const readtime = Math.ceil(wordCount / 200);
+  console.log(title+content+image);
 
   try {
     // Create a new story
