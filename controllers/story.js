@@ -1,18 +1,24 @@
 import { Story } from "../models/story.js";
-
 export const addStory = async (req, res) => {
-  const { title, content, image } = req.body;
-
-  console.log(title+content+image);
-
   try {
-    // Create a new story
-    const newStory = await Story.create({
+    // Validate that required fields (e.g., title and content) are present in the request body
+    const { title, content } = req.body;
+
+    if (!title || !content) {
+      return res.status(400).json({
+        error: "Both title and content are required in the request body",
+      });
+    }
+
+    // Create a new Blog instance with the request data
+    const newStory = new Blog({
       title,
       content,
-      author: req.user._id,
-      image, // Assuming you have a user object in the request
+      // Any other fields you want to include
     });
+
+    // Save the new story to the database
+    await newStory.save();
 
     return res.status(200).json({
       success: true,
@@ -20,8 +26,8 @@ export const addStory = async (req, res) => {
       data: newStory,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Internal Server" });
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
