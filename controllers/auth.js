@@ -1,6 +1,5 @@
 import { User } from "../models/user.js";
 import sendEmail from "../utils/email.js";
-import CustomError from "../utils/error.js";
 import { generateActivationToken, sendToken } from "../utils/jwt.js";
 import {
   comparePassword,
@@ -28,7 +27,7 @@ const register = async (req, res, next) => {
     // Check if the user already exists
     let user = await getUserByEmail(req);
     if (user) {
-      return next(new CustomError("Email id Already Exist!", 400));
+      return res.status(400).json({ error: "User Already Exist!" });
     }
 
     // Generate Hashed Password using the hashPassword function
@@ -64,7 +63,7 @@ const register = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    next(new CustomError("Internal Server Error", 500)); // Passing an internal server error
+    res.status(500).json({ error: "Internal Server" });
   }
 };
 
@@ -74,7 +73,7 @@ const activateUser = async (req, res, next) => {
     const user = await getUserByActivationToken(req);
     console.log(user);
     if (!user) {
-      throw new CustomError("Invalid activation token", 400);
+      return res.status(400).json({ error: "Invalid activation token!" });
     }
 
     // Update the user's status to indicate activation
@@ -87,7 +86,7 @@ const activateUser = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    next(new CustomError("Internal Server Error", 500)); // Passing an internal server error
+    res.status(500).json({ error: "Internal Server" });
   }
 };
 
@@ -97,7 +96,9 @@ const login = async (req, res, next) => {
     let user = await getUserByEmail(req);
 
     if (!user) {
-      return next(new CustomError("User not found. Please register.", 404));
+      return res
+        .status(404)
+        .json({ error: "User not found. Please register!" });
     }
 
     // Verify the user's password
@@ -107,7 +108,7 @@ const login = async (req, res, next) => {
     );
 
     if (!isPasswordValid) {
-      return next(new CustomError("Invalid password", 401));
+      return res.status(401).json({ error: "Invalid password!" });
     }
 
     // Generate and send an authentication token
@@ -116,8 +117,8 @@ const login = async (req, res, next) => {
     // Respond with a success message and the token
     res.status(200).json({ message: "Login successful", token });
   } catch (error) {
-    console.error(error);
-    next(new CustomError("Internal Server Error", 500));
+    console.log(error);
+    res.status(500).json({ error: "Internal Server" });
   }
 };
 
@@ -127,7 +128,7 @@ const forgotPassword = async (req, res, next) => {
     const user = await getUserByEmail(req);
 
     if (!user) {
-      return next(new CustomError("User not found. Please register.", 404));
+      res.status(404).json({ error: "User not found. Please register." });
     }
 
     // Generate a random reset token
@@ -160,8 +161,8 @@ const forgotPassword = async (req, res, next) => {
       resetToken: resetToken,
     });
   } catch (error) {
-    console.error(error);
-    next(new CustomError("Internal Server Error", 500));
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -171,18 +172,18 @@ const verifyRandomString = async (req, res, next) => {
     const user = await getUserByRandomString(req);
 
     if (!user) {
-      return next(new CustomError("Invalid Link", 400));
+      res.status(400).json({ error: "Invalid Link" });
     }
 
     // Check if the reset token has expired (assuming the token expires after 1 hour)
     if (user.randomStringExpires < Date.now()) {
-      return next(new CustomError("Password reset link has expired", 400));
+      res.status(400).json({ error: "Password reset link has expired" });
     }
 
     res.status(200).json({ message: "Random String Verified" });
   } catch (error) {
-    console.error(error);
-    next(new CustomError("Internal Server Error", 500));
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -191,12 +192,12 @@ const resetpassword = async (req, res, next) => {
     const user = await getUserByRandomString(req);
 
     if (!user) {
-      return next(new CustomError("Invalid Link", 400));
+      res.status(400).json({ error: "Invalid Link" });
     }
 
     // Check if the reset token has expired (assuming the token expires after 1 hour)
     if (user.randomStringExpires < Date.now()) {
-      return next(new CustomError("Password reset link has expired", 400));
+      res.status(400).json({ error: "Password reset link has expired" });
     }
     // Generate a new hashed password using the newPassword
     const hashedPassword = hashSyncPassword(req.body.password);
@@ -213,8 +214,8 @@ const resetpassword = async (req, res, next) => {
 
     res.status(200).json({ message: "Password reset successful" });
   } catch (error) {
-    console.error(error);
-    next(new CustomError("Internal Server Error", 500));
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
