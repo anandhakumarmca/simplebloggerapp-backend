@@ -12,7 +12,6 @@ export const addStory = async (req, res) => {
       content,
       author: req.user._id,
       image, // Assuming you have a user object in the request
-      readtime,
     });
 
     return res.status(200).json({
