@@ -4,7 +4,10 @@ export const addStory = async (req, res) => {
   const { title, content } = req.body;
 
   // Calculate word count
-  const wordCount = content.trim().split(/\s+/).length;
+  const wordCount =
+    content && typeof content === "string"
+      ? content.trim().split(/\s+/).length
+      : 0;
 
   // Calculate read time
   const readtime = Math.ceil(wordCount / 200);
