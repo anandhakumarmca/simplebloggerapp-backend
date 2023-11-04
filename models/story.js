@@ -10,14 +10,12 @@ const storySchema = new mongoose.Schema(
     slug: String,
     title: {
       type: String,
-      required: [true, "Please provide a title"],
+      required: true,
       unique: true,
-      minlength: [4, "Please provide a title least 4 characters "],
     },
     content: {
       type: String,
-      required: [true, "Please a provide a content "],
-      minlength: [10, "Please provide a content least 10 characters "],
+      required: true,
     },
     image: {
       type: String,

@@ -1,8 +1,9 @@
 import { Story } from "../models/story.js";
+
 export const addStory = async (req, res) => {
   try {
     // Validate that required fields (e.g., title and content) are present in the request body
-    const { title, content } = req.body;
+    const { title, content, image } = req.body;
 
     if (!title || !content) {
       return res.status(400).json({
@@ -10,17 +11,22 @@ export const addStory = async (req, res) => {
       });
     }
 
-    // Create a new Blog instance with the request data
-    const newStory = new Blog({
+    var wordCount = content.trim().split(/\s+/).length;
+
+    let readtime = Math.floor(wordCount / 200);
+    // Create a new Story instance with the request data
+    const newStory = new Story({
       title,
       content,
-      // Any other fields you want to include
+      image,
+      author: req.user._id,
+      readtime,
     });
 
     // Save the new story to the database
     await newStory.save();
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "Story added successfully",
       data: newStory,
