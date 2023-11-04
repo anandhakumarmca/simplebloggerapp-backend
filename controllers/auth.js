@@ -13,7 +13,7 @@ import {
   getUserByRandomString,
 } from "../utils/user.js";
 
-const getPrivateData = (req, res, next) => {
+const getPrivateData = (req, res) => {
   console.log(req.user);
   return res.status(200).json({
     success: true,
@@ -22,7 +22,7 @@ const getPrivateData = (req, res, next) => {
   });
 };
 
-const register = async (req, res, next) => {
+const register = async (req, res) => {
   try {
     // Check if the user already exists
     let user = await getUserByEmail(req);
@@ -67,7 +67,7 @@ const register = async (req, res, next) => {
   }
 };
 
-const activateUser = async (req, res, next) => {
+const activateUser = async (req, res) => {
   try {
     // Find the user with the given activation token
     const user = await getUserByActivationToken(req);
@@ -90,7 +90,7 @@ const activateUser = async (req, res, next) => {
   }
 };
 
-const login = async (req, res, next) => {
+const login = async (req, res) => {
   try {
     // Check if the user exists
     let user = await getUserByEmail(req);
