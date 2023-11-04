@@ -1,7 +1,7 @@
 import { Story } from "../models/story.js";
 
 export const addStory = async (req, res) => {
-  const { title, content } = req.body;
+  const { title, content, image } = req.body;
 
   // Calculate word count
   const wordCount =
@@ -17,7 +17,8 @@ export const addStory = async (req, res) => {
     const newStory = await Story.create({
       title,
       content,
-      author: req.user._id, // Assuming you have a user object in the request
+      author: req.user._id,
+      image, // Assuming you have a user object in the request
       readtime,
     });
 
