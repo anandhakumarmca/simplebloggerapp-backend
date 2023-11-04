@@ -1,6 +1,5 @@
 import { User } from "../models/user.js";
 import sendEmail from "../utils/email.js";
-import CustomError from "../utils/error.js"
 import { generateActivationToken, sendToken } from "../utils/jwt.js";
 import {
   comparePassword,
@@ -28,9 +27,7 @@ const register = async (req, res, next) => {
     // Check if the user already exists
     let user = await getUserByEmail(req);
     if (user) {
-      return next(new CustomError("Email id Already Exist!", 400));
-
-     // return res.status(400).json({ error: "User Already Exist!" });
+      return res.status(400).json({ error: "User Already Exist!" });
     }
 
     // Generate Hashed Password using the hashPassword function
