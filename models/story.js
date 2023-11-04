@@ -21,7 +21,8 @@ const storySchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      default: "default.jpg",
+      default:
+        "https://images.indianexpress.com/2023/10/leo-tamil-nadu-13102023.jpg",
     },
     readtime: {
       type: Number,
