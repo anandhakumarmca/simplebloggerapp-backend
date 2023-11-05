@@ -81,3 +81,63 @@ export const getStoryById = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const editStory = async (req, res) => {
+  try {
+    // Get the story ID from the route parameters
+    const storyId = req.params.id;
+
+    // Get the updated story data from the request body
+    const { title, summary, content, image } = req.body;
+
+    // Find the story by ID and update its properties
+    const updatedStory = await Story.findByIdAndUpdate(storyId, {
+      title,
+      summary,
+      content,
+      image,
+    });
+
+    if (!updatedStory) {
+      return res.status(404).json({
+        message: "Story not found",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Story updated successfully",
+      data: updatedStory,
+      success: true,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const deleteStory = async (req, res) => {
+  try {
+    // Get the story ID from the route parameters
+    const storyId = req.params.id;
+
+    // Find the story by ID and delete it
+    const deletedStory = await Story.findByIdAndRemove(storyId);
+
+    if (!deletedStory) {
+      return res.status(404).json({
+        message: "Story not found",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Story deleted successfully",
+      data: deletedStory,
+      success: true,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
