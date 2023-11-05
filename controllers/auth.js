@@ -113,9 +113,9 @@ const login = async (req, res) => {
 
     // Generate and send an authentication token
     const token = sendToken(user);
-
+    const userName = user.firstName;
     // Respond with a success message and the token
-    res.status(200).json({ message: "Login successful", token });
+    res.status(200).json({ message: "Login successful", token, userName });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server" });
