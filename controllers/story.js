@@ -56,3 +56,28 @@ export const getAllStories = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const getStoryById = async (req, res) => {
+  try {
+    const storyId = req.params.id; // Assuming the story ID is provided as a route parameter
+
+    // Fetch the story by ID from your database (assuming you have a "Story" model)
+    const story = await Story.findById(storyId);
+
+    if (!story) {
+      return res.status(404).json({
+        message: "Story not found",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Story retrieved successfully",
+      data: story,
+      success: true,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
