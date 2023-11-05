@@ -37,7 +37,7 @@ export const addStory = async (req, res) => {
 export const getAllStories = async (req, res) => {
   try {
     // Fetch all stories from your database (assuming you have a "Story" model)
-    const stories = await Story.find().populate("user").sort({ createdAt: -1 });
+    const stories = await Story.find();
 
     if (!stories) {
       return res.status(404).json({
@@ -62,7 +62,7 @@ export const getStoryById = async (req, res) => {
     const storyId = req.params.id; // Assuming the story ID is provided as a route parameter
 
     // Fetch the story by ID from your database (assuming you have a "Story" model)
-    const story = await Story.findById(storyId).populate("user");
+    const story = await Story.findById(storyId);
 
     if (!story) {
       return res.status(404).json({
