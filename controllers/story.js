@@ -17,7 +17,9 @@ export const addStory = async (req, res) => {
       title,
       summary,
       content,
-      image,
+      image:
+        image ||
+        "https://thersilentboy.com/wp-content/uploads/2022/09/Blogging.jpeg",
     });
 
     // Save the new story to the database
