@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.post("/addstory", protectRoute, addStory);
 router.get("/getAllStories", getAllStories);
-router.get("/:id", getStoryById);
-router.put("/:id", editStory);
+router.get("/:id", protectRoute, getStoryById);
+router.put("/:id", protectRoute, editStory);
 router.delete("/:id",protectRoute, deleteStory);
 
 export const storyRouter = router;
