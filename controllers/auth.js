@@ -46,7 +46,7 @@ const register = async (req, res) => {
     // HTML content for the activation email
     const htmlContent = `
         <p>Hello ${user.firstName},</p>
-        <p>Thank you for registering with our service. To activate your account, click the button below:</p>
+        <p>Thank you for registering with Aspire Kaleidoscope. To activate your account, click the button below:</p>
         <a href="${activationLink}">
         <button style="padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
             Activate Your Account
