@@ -6,6 +6,9 @@ import { indexRoutes } from "./routes/index.js";
 import customErrorHandler from "./middleware/customErrorHandler.js";
 import path from "path";
 
+//Router Path
+const router = express.Router();
+
 //Configuring the environmental variable
 dotenv.config();
 
