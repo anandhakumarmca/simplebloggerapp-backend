@@ -22,11 +22,17 @@ app.use(customErrorHandler);
 const __dirname = path.resolve();
 
 // Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(express.static(path.join(__dirname, "public")));
 
 //Database Connection
 dataBaseConnection();
+
+//Test Routes
+router.get("/", async (req, res) => {
+  return res
+    .status(200)
+    .json({ message: "API of Aspire Kaleidoscope... A Simple Blogger App" });
+});
 
 //Routes
 app.use("/api", indexRoutes);
