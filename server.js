@@ -29,9 +29,9 @@ dataBaseConnection();
 
 //Test Route
 app.get("/", async (req, res) => {
-  return res.status(200).json({
-    message: "API of Aspire Kaleidoscope... A Simple Blogger App Backend",
-  });
+  return res
+    .status(200)
+    .send("API of Aspire Kaleidoscope... A Simple Blogger App Backend");
 });
 
 //Routes
