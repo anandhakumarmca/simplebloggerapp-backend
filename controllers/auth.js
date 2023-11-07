@@ -140,7 +140,7 @@ const forgotPassword = async (req, res, next) => {
     user.randomStringExpires = resetTokenExpires;
     await user.save();
 
-    const resetLink = `${process.env.BASE_URL}/resetPassword/${resetToken}`;
+    const resetLink = `${process.env.BASE_URL}/verifyRandomString/${resetToken}`;
 
     // HTML content for the email
     const htmlContent = `
