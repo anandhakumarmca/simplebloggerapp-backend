@@ -6,9 +6,6 @@ import { indexRoutes } from "./routes/index.js";
 import customErrorHandler from "./middleware/customErrorHandler.js";
 import path from "path";
 
-//Router Path
-const router = express.Router();
-
 //Configuring the environmental variable
 dotenv.config();
 
@@ -30,11 +27,11 @@ app.use(express.static(path.join(__dirname, "public")));
 //Database Connection
 dataBaseConnection();
 
-//Test Routes
-router.get("/", async (req, res) => {
-  return res
-    .status(200)
-    .json({ message: "API of Aspire Kaleidoscope... A Simple Blogger App" });
+//Test Route
+app.get("/", async (req, res) => {
+  return res.status(200).json({
+    message: "API of Aspire Kaleidoscope... A Simple Blogger App Backend",
+  });
 });
 
 //Routes
